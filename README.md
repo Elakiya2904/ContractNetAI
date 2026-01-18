@@ -556,15 +556,7 @@ Contributions welcome! Areas for enhancement:
 
 ---
 
-## 📄 License
 
-MIT License - See LICENSE file for details
-
----
-
-## 👥 Contact
-
-For questions or support, please open an issue in the repository.
 
 ---
 
