@@ -544,14 +544,3 @@ Health check endpoint.
 - Contract-specific recommendations provide actionable insights
 
 ---
-
-## 🤝 Contributing
-
-Contributions welcome! Areas for enhancement:
-- Additional GNN architectures (GAT, GCN)
-- Temporal analysis of contract relationships
-- Advanced visualization of dependency graphs
-- Real-time monitoring integration
-- Blockchain-specific optimizations
-
----
