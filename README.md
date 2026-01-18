@@ -555,9 +555,3 @@ Contributions welcome! Areas for enhancement:
 - Blockchain-specific optimizations
 
 ---
-
-
-
----
-
-**Built with ❤️ using Python, React, and Graph Neural Networks**
