@@ -45,32 +45,20 @@ In blockchain ecosystems, smart contracts frequently interact with each other an
    - Aggregates duplicate relationships to provide unique contract pair insights
    - Visualizes dependency networks through directed graph analysis
 
-2. **Multi-Dimensional Risk Scoring**
-   - Combines heuristic analysis with Graph Neural Network (GNN) predictions
-   - Evaluates 5 key risk factors: counterparty dependency, failure rates, financial exposure, circular dependencies, and transaction volume
-   - Provides risk scores (0-100%) with categorization (Low/Medium/High)
-
-3. **Contract-Specific Recommendations**
+2. **Contract-Specific Recommendations**
    - Generates unique, actionable recommendations for each contract pair
    - Tailors suggestions based on individual contract performance metrics
    - Identifies specific contracts requiring immediate attention
 
-4. **Intelligent Filtering**
+3. **Intelligent Filtering**
    - Displays top 5 highest-risk contract pairs for immediate action
    - Provides full dataset downloads for comprehensive analysis
    - Deduplicates reasons and recommendations for clarity
 
-5. **Export & Reporting**
+4. **Export & Reporting**
    - CSV export for spreadsheet analysis
    - TXT report with detailed explanations and recommendations
 
-### Key Benefits
-
-- **Proactive Risk Management**: Identify vulnerabilities before they cause failures
-- **Data-Driven Decisions**: Quantified risk scores support prioritization
-- **Cost Optimization**: Detect opportunities for transaction batching and gas reduction
-- **Compliance Support**: Document dependencies for audit requirements
-- **Scalability**: Processes thousands of transactions in seconds
 
 ---
 
@@ -123,28 +111,28 @@ ContractNetAI/
 
 ### Backend
 
-| Technology | Purpose | Version |
-|------------|---------|---------|
-| **Python** | Core programming language | 3.13+ |
-| **FastAPI** | RESTful API framework | 0.110.1 |
-| **PyTorch** | Deep learning framework | 2.9.1 |
-| **NetworkX** | Graph algorithms & analysis | 3.6.1 |
-| **Pandas** | Data processing & manipulation | 2.3.3 |
-| **NumPy** | Numerical computations | 2.3.5 |
-| **Scikit-learn** | Machine learning utilities | 1.6.0 |
-| **Uvicorn** | ASGI server | 0.25.0 |
+| Technology | Purpose | 
+|------------|---------|
+| **Python** | Core programming language | 
+| **FastAPI** | RESTful API framework | 
+| **PyTorch** | Deep learning framework | 
+| **NetworkX** | Graph algorithms & analysis |
+| **Pandas** | Data processing & manipulation | 
+| **NumPy** | Numerical computations | 
+| **Scikit-learn** | Machine learning utilities | 
+| **Uvicorn** | ASGI server | 
 
 ### Frontend
 
-| Technology | Purpose | Version |
-|------------|---------|---------|
-| **React** | UI framework | 19.0.0 |
-| **React Router** | Client-side routing | 7.5.1 |
-| **Axios** | HTTP client | 1.8.4 |
-| **Tailwind CSS** | Utility-first CSS framework | 3.4.17 |
-| **Radix UI** | Accessible component library | Various |
-| **Lucide React** | Icon library | 0.507.0 |
-| **CRACO** | Create React App configuration | 7.1.0 |
+| Technology | Purpose | 
+|------------|---------|
+| **React** | UI framework |
+| **React Router** | Client-side routing |
+| **Axios** | HTTP client | 
+| **Tailwind CSS** | Utility-first CSS framework | 
+| **Radix UI** | Accessible component library | 
+| **Lucide React** | Icon library | 
+| **CRACO** | Create React App configuration |
 
 ### Data Processing
 
