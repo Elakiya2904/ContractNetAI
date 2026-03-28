@@ -89,12 +89,16 @@ class ContractAnalyzer:
             # Calculate risk scores
             analyzed_pairs = self._calculate_risk_scores(contract_pairs, df, gnn_scores)
             
+            # Generate individual contract recommendations
+            individual_contracts = self._generate_individual_recommendations(df, gnn_scores)
+            
             # Generate summary
             summary = self._generate_summary(df, analyzed_pairs)
             
             return {
                 'summary': summary,
-                'contractPairs': analyzed_pairs
+                'contractPairs': analyzed_pairs,
+                'individualContracts': individual_contracts
             }
             
         except Exception as e:
@@ -337,6 +341,129 @@ class ContractAnalyzer:
             return has_path_ab and has_path_ba
         except Exception:
             return False
+    
+    def _generate_individual_recommendations(self, df: pd.DataFrame, gnn_scores: Optional[Dict] = None) -> Dict[str, Dict]:
+        """
+        Generate individual contract-specific recommendations and risk profiles
+        """
+        individual_contracts = {}
+        
+        # Get all unique contracts
+        all_contracts = pd.concat([df['from'], df['to']]).unique()
+        
+        for contract in all_contracts:
+            # Get contract stats
+            stats = self._get_contract_stats(contract, df)
+            
+            recommendations = []
+            issues = []
+            risk_score = 0.0
+            
+            # Issue 1: High failure rate
+            if stats['failure_rate'] > 15:
+                issues.append(f"Critical: {stats['failure_rate']:.1f}% transaction failure rate")
+                risk_score += 0.35
+                recommendations.append(f"URGENT: Debug {contract} - Transaction failure rate of {stats['failure_rate']:.1f}% is critical")
+                recommendations.append(f"Run comprehensive diagnostics on {contract} transaction processing")
+            elif stats['failure_rate'] > 10:
+                issues.append(f"High: {stats['failure_rate']:.1f}% transaction failure rate")
+                risk_score += 0.25
+                recommendations.append(f"Investigate {contract} error patterns - {stats['failure_rate']:.1f}% failure rate detected")
+            elif stats['failure_rate'] > 5:
+                issues.append(f"Moderate: {stats['failure_rate']:.1f}% transaction failure rate")
+                risk_score += 0.15
+                recommendations.append(f"Monitor {contract} for emerging reliability issues")
+            
+            # Issue 2: Excessive transaction volume
+            if stats['count'] > 500:
+                issues.append(f"High volume: {stats['count']} transactions processed")
+                risk_score += 0.2
+                recommendations.append(f"Implement rate limiting and load balancing for {contract}")
+                recommendations.append(f"Batch {contract} operations to reduce per-transaction overhead")
+            elif stats['count'] > 200:
+                issues.append(f"Moderate volume: {stats['count']} transactions processed")
+                risk_score += 0.1
+                recommendations.append(f"Consider transaction bundling for {contract} to optimize gas costs")
+            
+            # Issue 3: High financial exposure
+            if stats['total_value'] > 5000000:
+                issues.append(f"Critical exposure: ${stats['total_value']:,.0f} in transactions")
+                risk_score += 0.2
+                recommendations.append(f"Set strict spending limits on {contract} (${stats['total_value']:,.0f} at risk)")
+                recommendations.append(f"Implement multi-signature approval for {contract} transactions >$100k")
+            elif stats['total_value'] > 2000000:
+                issues.append(f"High exposure: ${stats['total_value']:,.0f} in transactions")
+                risk_score += 0.15
+                recommendations.append(f"Enable real-time monitoring for {contract} (${stats['total_value']:,.0f} in transactions)")
+            elif stats['total_value'] > 1000000:
+                issues.append(f"Moderate exposure: ${stats['total_value']:,.0f} in transactions")
+                risk_score += 0.1
+                recommendations.append(f"Review monthly transaction limits for {contract}")
+            
+            # Issue 4: Counterparty concentration
+            counterparties = self._get_contract_counterparties(contract, df)
+            if len(counterparties) == 1:
+                issues.append(f"Single counterparty dependency: {counterparties[0]}")
+                risk_score += 0.15
+                recommendations.append(f"Diversify {contract} - currently depends solely on {counterparties[0]}")
+                recommendations.append(f"Establish backup relationships for {contract} operational continuity")
+            elif len(counterparties) < 3:
+                issues.append(f"Limited counterparty diversity: {len(counterparties)} partners")
+                risk_score += 0.08
+                recommendations.append(f"Expand {contract} counterparty base (currently {len(counterparties)} partners)")
+            
+            # Issue 5: Circular dependency involvement
+            involved_in_circular = False
+            for other_contract in all_contracts:
+                if other_contract != contract and self._has_circular_dependency(contract, other_contract):
+                    involved_in_circular = True
+                    issues.append(f"Circular dependency with {other_contract}")
+                    risk_score += 0.1
+                    recommendations.append(f"Break circular dependency between {contract} and {other_contract}")
+                    break
+            
+            # GNN-based risk signal
+            if gnn_scores and contract in gnn_scores:
+                gnn_score = gnn_scores[contract]
+                risk_score = max(risk_score, float(round(gnn_score, 2)))
+                if gnn_score > 0.7:
+                    issues.append(f"GNN model flagged {contract} as high-risk")
+            
+            # Determine risk level
+            if risk_score >= 0.7:
+                risk_level = 'high'
+            elif risk_score >= 0.4:
+                risk_level = 'medium'
+            else:
+                risk_level = 'low'
+            
+            # Ensure uniqueness and limit to 5 recommendations
+            recommendations = list(dict.fromkeys(recommendations))[:5]
+            
+            individual_contracts[contract] = {
+                'contractName': contract,
+                'riskScore': round(risk_score, 2),
+                'riskLevel': risk_level,
+                'failureRate': stats['failure_rate'],
+                'totalValue': stats['total_value'],
+                'transactionCount': stats['count'],
+                'recommendations': recommendations,
+                'issues': issues
+            }
+        
+        return individual_contracts
+    
+    def _get_contract_counterparties(self, contract: str, df: pd.DataFrame) -> List[str]:
+        """
+        Get all unique counterparties (addresses) a contract interacts with
+        """
+        # Find all 'to' addresses when this contract is 'from'
+        to_addresses = set(df[df['from'] == contract]['to'].unique())
+        # Find all 'from' addresses when this contract is 'to'
+        from_addresses = set(df[df['to'] == contract]['from'].unique())
+        
+        counterparties = list(to_addresses | from_addresses)
+        return sorted(counterparties)
     
     def _generate_suggestions(self, risk_level: str, reasons: List[str], counterparty: str, 
                                 contract_a_name: str, contract_b_name: str,

@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-from typing import List, Optional
+from typing import List, Optional, Dict
 from datetime import datetime
 import uuid
 
@@ -8,6 +8,17 @@ class AnalysisSummary(BaseModel):
     linkedContracts: int
     sharedCounterparties: int
     avgRiskScore: float
+
+class IndividualContractRecommendation(BaseModel):
+    """Recommendations specific to a single contract"""
+    contractName: str
+    riskScore: float
+    riskLevel: str
+    failureRate: float
+    totalValue: float
+    transactionCount: int
+    recommendations: List[str]
+    issues: List[str]
 
 class ContractPair(BaseModel):
     id: int
@@ -25,6 +36,7 @@ class ContractPair(BaseModel):
 class AnalysisResult(BaseModel):
     summary: AnalysisSummary
     contractPairs: List[ContractPair]
+    individualContracts: Optional[Dict[str, IndividualContractRecommendation]] = None
 
 class StoredAnalysis(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))

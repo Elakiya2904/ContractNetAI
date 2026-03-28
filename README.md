@@ -6,7 +6,7 @@
 
 - [Problem Statement](#problem-statement)
 - [Proposed Solution](#proposed-solution)
-- [Project Structure](#project-structure)
+- [Key Features](#key-features)
 - [Tech Stack](#tech-stack)
 - [Algorithms Used](#algorithms-used)
 - [Installation](#installation)
@@ -19,18 +19,18 @@
 
 In blockchain ecosystems, smart contracts frequently interact with each other and share common counterparties, creating complex dependency networks. These interconnected relationships pose several challenges:
 
-1. **Hidden Dependencies**: Organizations struggle to identify which contracts are interdependent through shared counterparties
-2. **Risk Concentration**: Multiple critical contracts depending on the same counterparty creates single points of failure
-3. **Circular Dependencies**: Contracts with bidirectional relationships can create deadlock situations
-4. **Transaction Failures**: High error rates in specific contract pairs remain undetected until critical failures occur
-5. **Financial Exposure**: Lack of visibility into aggregate financial exposure across related contract pairs
-6. **Manual Analysis Limitations**: Traditional approaches cannot efficiently analyze thousands of transaction records to detect patterns
+1. **Hidden Dependencies**: Organizations struggle to identify which contracts are interdependent through shared counterparties.
+2. **Risk Concentration**: Multiple critical contracts depending on the same counterparty creates single points of failure.
+3. **Circular Dependencies**: Contracts with bidirectional relationships can create deadlock situations.
+4. **Transaction Failures**: High error rates in specific contract pairs remain undetected until critical failures occur.
+5. **Financial Exposure**: Lack of visibility into aggregate financial exposure across related contract pairs.
+6. **Manual Analysis Limitations**: Traditional approaches cannot efficiently analyze thousands of transaction records to detect patterns.
 
 **Impact**: Without automated cross-contract analysis, organizations face:
-- Unexpected service disruptions when shared counterparties fail
-- Unquantified financial risk from concentrated dependencies
-- Difficulty in optimizing contract architecture
-- Reactive rather than proactive risk management
+- Unexpected service disruptions when shared counterparties fail.
+- Unquantified financial risk from concentrated dependencies.
+- Difficulty in optimizing contract architecture.
+- Reactive rather than proactive risk management.
 
 ---
 
@@ -41,69 +41,59 @@ In blockchain ecosystems, smart contracts frequently interact with each other an
 ### Core Capabilities
 
 1. **Automated Relationship Detection**
-   - Analyzes transaction data to identify contracts sharing common counterparties
-   - Aggregates duplicate relationships to provide unique contract pair insights
-   - Visualizes dependency networks through directed graph analysis
+   - Analyzes transaction data to identify contracts sharing common counterparties.
+   - Aggregates duplicate relationships to provide unique contract pair insights.
+   - Visualizes dependency networks through directed graph analysis.
 
-2. **Contract-Specific Recommendations**
-   - Generates unique, actionable recommendations for each contract pair
-   - Tailors suggestions based on individual contract performance metrics
-   - Identifies specific contracts requiring immediate attention
+2. **Multi-Dimensional Risk Scoring**
+   - Combines heuristic analysis with Graph Neural Network (GNN) predictions.
+   - Evaluates 5 key risk factors: counterparty dependency, failure rates, financial exposure, circular dependencies, and transaction volume.
+   - Provides risk scores (0-100%) with categorization (Low/Medium/High).
 
-3. **Intelligent Filtering**
-   - Displays top 5 highest-risk contract pairs for immediate action
-   - Provides full dataset downloads for comprehensive analysis
-   - Deduplicates reasons and recommendations for clarity
+3. **Contract-Specific Recommendations**
+   - Generates unique, actionable recommendations for each contract and contract pair.
+   - Tailors suggestions based on individual contract performance metrics.
+   - Identifies specific contracts requiring immediate attention.
 
-4. **Export & Reporting**
-   - CSV export for spreadsheet analysis
-   - TXT report with detailed explanations and recommendations
+4. **Scalability and Automation**
+   - Processes thousands of transactions in seconds.
+   - Automates risk detection and recommendation generation, reducing manual effort.
 
+### Key Features
+
+- **Graph-Based Analysis**: Builds a directed graph of contract interactions to uncover hidden dependencies and circular relationships.
+- **Risk Scoring**: Calculates risk scores for both contract pairs and individual contracts based on multiple dimensions.
+- **AI Integration**: Utilizes Graph Neural Networks (GNNs) to predict risks and enhance heuristic analysis.
+- **Actionable Insights**: Provides specific recommendations to mitigate risks, such as diversifying counterparties or setting transaction limits.
+- **Customizable Analysis**: Allows organizations to adapt risk thresholds and weights to their specific needs.
+- **Scalable Design**: Handles large-scale blockchain networks efficiently.
 
 ---
 
-## 📁 Project Structure
+## 🛠 Addressing Common Questions
 
-```
-ContractNetAI/
-├── backend/                          # FastAPI backend server
-│   ├── analysis_engine.py           # Core analysis logic
-│   ├── gnn_inference.py             # GraphSAGE inference
-│   ├── models.py                    # Pydantic data models
-│   ├── server.py                    # FastAPI application
-│   ├── train_gnn.py                 # GNN training script
-│   ├── requirements.txt             # Python dependencies
-│   ├── .env                         # Environment configuration
-│   └── models/
-│       └── graphsage_model.pth     # Trained GNN weights
-│
-├── frontend/                         # React frontend application
-│   ├── public/
-│   │   └── index.html               # HTML entry point
-│   ├── src/
-│   │   ├── App.js                   # Main application component
-│   │   ├── index.js                 # React entry point
-│   │   ├── mock.js                  # Mock data utilities
-│   │   ├── components/
-│   │   │   └── ui/                  # Reusable UI components (Radix UI)
-│   │   ├── pages/
-│   │   │   ├── Home.js              # Upload page
-│   │   │   └── Results.js           # Analysis results display
-│   │   ├── styles/
-│   │   │   ├── Home.css
-│   │   │   └── Results.css
-│   │   └── lib/
-│   │       └── utils.js             # Utility functions
-│   ├── package.json                 # Node dependencies
-│   ├── craco.config.js              # Create React App configuration
-│   ├── tailwind.config.js           # Tailwind CSS configuration
-│   └── .env                         # Frontend environment variables
-│
-├── tests/                            # Test directory
-├── ethereum_transactions.csv         # Sample transaction data
-├── sample_contracts.csv              # Additional sample data
-└── README.md                         # This file
-```
+### **Is this just a dashboard for displaying data?**
+
+**No, ContractNetAI is much more than a dashboard.** While it visualizes data, the platform performs advanced analysis to:
+- Detect hidden relationships between contracts (e.g., shared counterparties, circular dependencies).
+- Calculate multi-dimensional risk scores using both heuristics and AI models.
+- Generate actionable recommendations tailored to each contract’s unique risks.
+
+This makes it a **decision-making tool** for proactive risk management, not just a data display.
+
+### **How does it handle different contract types?**
+
+The platform analyzes transaction patterns, not contract code. This means it works across all contract types by:
+- Identifying shared counterparties and dependencies.
+- Scoring risks based on transaction data (e.g., failure rates, financial exposure).
+- Providing recommendations specific to each contract’s role in the network.
+
+### **What makes this project unique?**
+
+- **AI-Powered Analysis**: Integrates Graph Neural Networks (GNNs) for predictive risk scoring.
+- **Tailored Recommendations**: Offers contract-specific and pair-specific actions to mitigate risks.
+- **Scalability**: Processes thousands of transactions efficiently, making it suitable for large blockchain ecosystems.
+- **Proactive Risk Management**: Helps organizations identify and address risks before they cause failures.
 
 ---
 
@@ -111,35 +101,28 @@ ContractNetAI/
 
 ### Backend
 
-| Technology | Purpose | 
-|------------|---------|
-| **Python** | Core programming language | 
-| **FastAPI** | RESTful API framework | 
-| **PyTorch** | Deep learning framework | 
-| **NetworkX** | Graph algorithms & analysis |
-| **Pandas** | Data processing & manipulation | 
-| **NumPy** | Numerical computations | 
-| **Scikit-learn** | Machine learning utilities | 
-| **Uvicorn** | ASGI server | 
+| Technology      | Purpose                        | Version |
+|-----------------|--------------------------------|---------|
+| **Python**      | Core programming language      | 3.13+   |
+| **FastAPI**     | RESTful API framework          | 0.110.1 |
+| **PyTorch**     | Deep learning framework        | 2.9.1   |
+| **NetworkX**    | Graph algorithms & analysis    | 3.6.1   |
+| **Pandas**      | Data processing & manipulation | 2.3.3   |
+| **NumPy**       | Numerical computations         | 2.3.5   |
+| **Scikit-learn**| Machine learning utilities     | 1.6.0   |
+| **Uvicorn**     | ASGI server                    | 0.25.0  |
 
 ### Frontend
 
-| Technology | Purpose | 
-|------------|---------|
-| **React** | UI framework |
-| **React Router** | Client-side routing |
-| **Axios** | HTTP client | 
-| **Tailwind CSS** | Utility-first CSS framework | 
-| **Radix UI** | Accessible component library | 
-| **Lucide React** | Icon library | 
-| **CRACO** | Create React App configuration |
-
-### Data Processing
-
-- **CSV Parsing**: Pandas
-- **Graph Construction**: NetworkX DiGraph (Directed Graph)
-- **Feature Engineering**: Custom aggregation pipelines
-- **Model Inference**: PyTorch with custom GraphSAGE implementation
+| Technology       | Purpose                        | Version |
+|------------------|--------------------------------|---------|
+| **React**        | UI framework                  | 19.0.0  |
+| **React Router** | Client-side routing           | 7.5.1   |
+| **Axios**        | HTTP client                   | 1.8.4   |
+| **Tailwind CSS** | Utility-first CSS framework   | 3.4.17  |
+| **Radix UI**     | Accessible component library  | Various |
+| **Lucide React** | Icon library                  | 0.507.0 |
+| **CRACO**        | Create React App configuration| 7.1.0   |
 
 ---
 
@@ -147,7 +130,7 @@ ContractNetAI/
 
 ### 1. **Graph Construction Algorithm**
 
-**Purpose**: Build directed graph representation of contract interactions
+**Purpose**: Build directed graph representation of contract interactions.
 
 **Algorithm**:
 ```
@@ -164,13 +147,13 @@ For each transaction:
         Create new edge with initial values
 ```
 
-**Complexity**: O(T) where T = number of transactions
+**Complexity**: O(T) where T = number of transactions.
 
 ---
 
 ### 2. **Shared Counterparty Detection**
 
-**Purpose**: Identify contract pairs with common dependencies
+**Purpose**: Identify contract pairs with common dependencies.
 
 **Algorithm**:
 ```
@@ -185,45 +168,13 @@ Output: Unique contract pairs with shared counterparties
 3. Return deduplicated pairs
 ```
 
-**Complexity**: O(U × C²) where U = users, C = avg contracts per user
+**Complexity**: O(U × C²) where U = users, C = avg contracts per user.
 
 ---
 
-### 3. **GraphSAGE (Graph Sample and Aggregate)**
+### 3. **Multi-Factor Risk Scoring**
 
-**Purpose**: Learn node embeddings for risk prediction via Graph Neural Networks
-
-**Architecture**:
-```
-Input Layer: 4 features (total_sent, total_received, out_degree, in_degree)
-    ↓
-GraphSAGE Layer 1: Aggregate neighbor features
-    - Neighborhood aggregation via mean pooling
-    - Concatenate self + aggregated features
-    - Linear transformation: (in_feats * 2) → hidden_feats (64)
-    - ReLU activation
-    ↓
-GraphSAGE Layer 2: Second aggregation
-    - Similar aggregation process
-    - Linear transformation: (hidden_feats * 2) → num_classes (2)
-    - No activation (logits)
-    ↓
-Output: Risk classification (0: low risk, 1: high risk)
-```
-
-**Training**:
-- Loss: Cross-Entropy
-- Optimizer: Adam (lr=0.01, weight_decay=5e-4)
-- Train/Test Split: 70/30
-- Epochs: 30 (configurable)
-
-**Complexity**: O(E × F × H) where E = edges, F = feature dim, H = hidden dim
-
----
-
-### 4. **Multi-Factor Risk Scoring**
-
-**Purpose**: Calculate comprehensive risk score for each contract pair
+**Purpose**: Calculate comprehensive risk score for each contract pair.
 
 **Algorithm**:
 ```
@@ -269,75 +220,52 @@ Risk Level Classification:
     Else: LOW
 ```
 
-**Complexity**: O(P × (S_A + S_B + G)) where P = pairs, S = stats computation, G = graph path search
+**Complexity**: O(P × (S_A + S_B + G)) where P = pairs, S = stats computation, G = graph path search.
 
 ---
 
-### 5. **Recommendation Generation Algorithm**
+## 📁 Project Structure
 
-**Purpose**: Generate contract-specific actionable recommendations
-
-**Algorithm**:
 ```
-Input: Risk level, contract stats (A, B), failure rates, value, circular flag
-Output: List of unique recommendations (max 5)
-
-Initialize suggestions = []
-
-# Failure-based recommendations
-If max(A.failure_rate, B.failure_rate) > 10%:
-    Identify worst_contract
-    Add: "Fix {rate}% error rate in {worst_contract}"
-    Add: "Run diagnostics on {worst_contract}"
-
-# Value-based recommendations
-If total_value > $2M:
-    Identify high_value_contract
-    Add: "Implement transaction limits on {contract}"
-    Add: "Enable real-time alerts for {counterparty} >$50k"
-
-# Circular dependency recommendations
-If has_circular:
-    Add: "Break circular flow between A and B"
-    Add: "Introduce intermediary contract"
-
-# Volume-based recommendations
-If transaction_count > 300:
-    Add: "Batch transactions to reduce gas costs"
-
-# Load balancing
-If A.count > B.count * 2:
-    Add: "Balance load: {A} handles {A.count} vs {B.count}"
-
-# Risk-level specific
-If risk_level == HIGH:
-    Add: "Critical: Reduce dependency on {counterparty}"
-Else if risk_level == MEDIUM:
-    Add: "Diversify counterparty base"
-
-Return unique(suggestions)[:5]
+ContractNetAI/
+├── backend/                          # FastAPI backend server
+│   ├── analysis_engine.py           # Core analysis logic
+│   ├── gnn_inference.py             # GraphSAGE inference
+│   ├── models.py                    # Pydantic data models
+│   ├── server.py                    # FastAPI application
+│   ├── train_gnn.py                 # GNN training script
+│   ├── requirements.txt             # Python dependencies
+│   ├── .env                         # Environment configuration
+│   └── models/
+│       └── graphsage_model.pth     # Trained GNN weights
+│
+├── frontend/                         # React frontend application
+│   ├── public/
+│   │   └── index.html               # HTML entry point
+│   ├── src/
+│   │   ├── App.js                   # Main application component
+│   │   ├── index.js                 # React entry point
+│   │   ├── mock.js                  # Mock data utilities
+│   │   ├── components/
+│   │   │   └── ui/                  # Reusable UI components (Radix UI)
+│   │   ├── pages/
+│   │   │   ├── Home.js              # Upload page
+│   │   │   └── Results.js           # Analysis results display
+│   │   ├── styles/
+│   │   │   ├── Home.css
+│   │   │   └── Results.css
+│   │   └── lib/
+│   │       └── utils.js             # Utility functions
+│   ├── package.json                 # Node dependencies
+│   ├── craco.config.js              # Create React App configuration
+│   ├── tailwind.config.js           # Tailwind CSS configuration
+│   └── .env                         # Frontend environment variables
+│
+├── tests/                            # Test directory
+├── ethereum_transactions.csv         # Sample transaction data
+├── sample_contracts.csv              # Additional sample data
+└── README.md                         # This file
 ```
-
-**Complexity**: O(1) per pair (fixed number of checks)
-
----
-
-### 6. **Circular Dependency Detection**
-
-**Purpose**: Identify bidirectional dependencies between contracts
-
-**Algorithm**: Bidirectional Path Search using NetworkX
-```
-Input: Directed graph G, contracts A and B
-Output: Boolean (circular dependency exists)
-
-has_path_AB = BFS(G, source=A, target=B)
-has_path_BA = BFS(G, source=B, target=A)
-
-Return has_path_AB AND has_path_BA
-```
-
-**Complexity**: O(V + E) per check using BFS
 
 ---
 
@@ -532,3 +460,28 @@ Health check endpoint.
 - Contract-specific recommendations provide actionable insights
 
 ---
+
+## 🤝 Contributing
+
+Contributions welcome! Areas for enhancement:
+- Additional GNN architectures (GAT, GCN)
+- Temporal analysis of contract relationships
+- Advanced visualization of dependency graphs
+- Real-time monitoring integration
+- Blockchain-specific optimizations
+
+---
+
+## 📄 License
+
+MIT License - See LICENSE file for details
+
+---
+
+## 👥 Contact
+
+For questions or support, please open an issue in the repository.
+
+---
+
+**Built with ❤️ using Python, React, and Graph Neural Networks**
